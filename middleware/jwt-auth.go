@@ -33,3 +33,20 @@ func AuthorizeJWT(jwtService service.JWTService) gin.HandlerFunc {
 		}
 	}
 }
+
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+			c.Header("Access-Control-Allow-Origin", "*")
+			c.Header("Access-Control-Allow-Credentials", "false")
+			c.Header("Access-Control-Allow-Headers", "*")
+			c.Header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE")
+			c.Header("Content-Type", "application/json; charset=utf-8")
+
+			if c.Request.Method == "OPTIONS" {
+					c.AbortWithStatus(204)
+					return
+			}
+
+			c.Next()
+	}
+}

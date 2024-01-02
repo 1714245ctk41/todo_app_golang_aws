@@ -13,13 +13,11 @@ services:
     - MYSQL_ROOT_PASSWORD=password
     - MYSQL_DATABASE=golang_api
   api:
+    image: hoangtv2506a/todo_app_golang_aws-api
     container_name: 'golang-apis'
     restart: always
     extra_hosts:
     - "host.docker.internal:host-gateway"
-    build: 
-      context: .
-      dockerfile: Dockerfile
     ports:
     - "8080:8080"
     volumes:
@@ -27,3 +25,11 @@ services:
     depends_on:
       - db
     command: ["./wait-for-it.sh", "db:3306", "--timeout=60", "--", "./main"]
+  frondend:
+    image: hoangtv2506a/todo_reactjs
+    container_name: todo_reactjs
+    restart: always
+    ports:
+    - "3000:3000"
+    depends_on:
+      - db

@@ -26,6 +26,7 @@ var (
 func main() {
 	defer config.CloseDatabaseConnection(db)
 	r := gin.Default()
+	r.Use(middleware.CORSMiddleware())
 
 	authRoutes := r.Group("api/auth")
 	{
@@ -47,6 +48,5 @@ func main() {
 		bookRoutes.PUT("/:id", bookController.Update)
 		bookRoutes.DELETE("/:id", bookController.Delete)
 	}
-
 	r.Run()
 }
